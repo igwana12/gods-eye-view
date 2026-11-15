@@ -455,8 +455,10 @@ body:not(.ui-clean-view):not(.recording-mode):has(
   )
   #cesium-credits {
   right: auto;
-  bottom: calc(2vh + 5rem + var(--world-timeline-lift, 0px));
-  left: 1.5rem;
+  /* Wide screens: tucked into the bottom-left corner, clear of the centred dock;
+     narrow screens (below) keep the row above the dock. */
+  bottom: calc(12px + var(--world-timeline-lift, 0px));
+  left: 12px;
   width: auto !important;
   max-width: calc(100vw - 3rem);
   text-align: left;

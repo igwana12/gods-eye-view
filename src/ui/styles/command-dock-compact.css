@@ -377,7 +377,8 @@
 
 /* Compact dock clearance keeps the reference-like low profile. */
 body:not(.ui-clean-view):not(.recording-mode) #cesium-credits {
-  bottom: calc(2vh + 4.7rem + var(--world-timeline-lift, 0px));
+  /* Wide screens: tucked into the bottom-left corner, clear of the centred dock. */
+  bottom: calc(12px + var(--world-timeline-lift, 0px));
 }
 
 #intel-hud[data-variant='minimal'] .hud-bottom-left {
