@@ -90,6 +90,33 @@ test('manifest rejects duplicate/unknown IDs, unsupported placement and request 
   assert.throws(() => parseSceneDocument(JSON.stringify(old)));
 });
 
+test('geojson placement accepts an optional colour and drape flag, nothing looser', () => {
+  const ok = project();
+  Object.assign(ok.scenes[0].dataPacks[0].placement, { color: '#cd8c46', drape: true });
+  assert.doesNotThrow(() => parseSceneDocument(JSON.stringify(ok)));
+  const alpha = project();
+  alpha.scenes[0].dataPacks[0].placement.color = '#CD8C46B3';
+  assert.doesNotThrow(() => parseSceneDocument(JSON.stringify(alpha)));
+  for (const bad of [
+    { color: 'orange' },
+    { color: '#abc' },
+    { color: 'url(x)' },
+    { drape: 'yes' },
+    { drape: 1 },
+    { style: { color: '#ffffff' } },
+  ]) {
+    const p = project();
+    Object.assign(p.scenes[0].dataPacks[0].placement, bad);
+    assert.throws(() => parseSceneDocument(JSON.stringify(p)));
+  }
+  const img = project();
+  Object.assign(img.scenes[0].dataPacks[0], {
+    format: 'image',
+    placement: { bounds: [-98, 30, -97, 31], height: 200, altitudeReference: 'ellipsoid', color: '#ffffff' },
+  });
+  assert.throws(() => parseSceneDocument(JSON.stringify(img)));
+});
+
 test('image bounds and media anchor references are explicit and validated', () => {
   const p = project(),
     s = p.scenes[0],

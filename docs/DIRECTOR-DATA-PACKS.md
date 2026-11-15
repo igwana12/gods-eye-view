@@ -52,7 +52,10 @@ this is not a new arbitrary-URL proxy.
   `[longitude, latitude, ellipsoidHeightMeters]`; missing height means zero,
   which can be underground. Supply appropriate heights. Geometry properties
   are ignored: they cannot select external icons, HTML, styling or scripts.
-  Placement is `{ "altitudeReference": "ellipsoid" }`.
+  Placement is `{ "altitudeReference": "ellipsoid" }`, with two optional keys: `color`
+  (`#rrggbb` or `#rrggbbaa`, applied to every feature; cyan otherwise) and `drape`
+  (`true` paints lines and polygons onto terrain and 3D Tiles instead of placing them
+  at their heights; points keep their heights).
 - **`image`:** PNG served as `image/png`, at most 4096×4096 pixels, checked before
   decoding. Placement is `{ "bounds": [west, south, east, north], "height": 300,
   "altitudeReference": "ellipsoid" }`. Bounds must increase and cannot cross

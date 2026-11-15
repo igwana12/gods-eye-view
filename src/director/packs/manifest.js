@@ -88,8 +88,17 @@ export function validateDataPack(pack, path, anchorIds) {
       ? ['bounds', 'height', 'altitudeReference']
       : pack.format === 'media'
         ? ['anchorId']
-        : ['altitudeReference'],
+        : ['altitudeReference', 'color', 'drape'],
   );
+  if (pack.format === 'geojson') {
+    optional(p, 'color', at, (v, a) => {
+      if (typeof v !== 'string' || !/^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$/.test(v))
+        fail(a, 'expected a #rrggbb or #rrggbbaa color');
+    });
+    optional(p, 'drape', at, (v, a) => {
+      if (typeof v !== 'boolean') fail(a, 'expected true or false');
+    });
+  }
   if (pack.format === 'media') {
     if (!anchorIds.has(p.anchorId))
       fail(`${at}.anchorId`, 'unknown scene anchor');
